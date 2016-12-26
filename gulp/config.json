@@ -4,5 +4,10 @@
         "dist": "./dist/",
         "src": "./src/",
         "temp": "./temp/"
+    },
+    "srcs": {
+        "tests": {
+            "node": "test/node/**/*.test.js"
+        }
     }
 }

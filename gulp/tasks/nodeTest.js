@@ -4,6 +4,7 @@ module.exports = taskFactory;
 
 function taskFactory(context) {
 	var gulp = context.gulp;
+	var nodeTests = context.config.srcs.tests.node;
 	var mocha = context.plugins.mocha;
 
 	return taskHandler;
@@ -11,7 +12,7 @@ function taskFactory(context) {
 	// return void(0);
 
 	function taskHandler() {
-		return gulp.src('test/node/**/*.test.js')
+		return gulp.src(nodeTests)
 			.pipe(mocha());
 	}
 }

@@ -2,8 +2,7 @@
     "tasks": { },
     "paths": {
         "dist": "./dist/",
-        "app": "./app/",
-        "temp": "./temp/",
-        "requirePath": "./../../"
+        "src": "./src/",
+        "temp": "./temp/"
     }
 }

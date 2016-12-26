@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/zhangaz1/webDemoTemplate/issues"
   },
-  "homepage": "https://github.com/zhangaz1/webDemoTemplate#readme"
+  "homepage": "https://github.com/zhangaz1/webDemoTemplate#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
 }

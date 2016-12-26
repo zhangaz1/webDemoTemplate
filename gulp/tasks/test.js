@@ -7,7 +7,8 @@ function taskFactory(context) {
 	var tasks = context.config.tasks;
 
 	return sequence(
-		// tasks.clean.name
-		tasks.test.name
+		tasks.nodeTest.name,
+		tasks.karmaTest.name,
+		tasks.protractorTest.name
 	);
 }

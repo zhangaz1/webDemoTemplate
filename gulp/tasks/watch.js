@@ -1,10 +1,12 @@
 'use strict';
 
 
-module.exports = function (context, name) {
+module.exports = function(context, name) {
 	var gulp = context.gulp;
 	var config = context.config;
 	var cacheManager = context.cacheManager;
+
+	var plugins = context.plugins;
 
 	gulp.task(
 		name,
@@ -13,7 +15,7 @@ module.exports = function (context, name) {
 	);
 
 	function addWatch(done) {
-		if (cacheManager.get(name)) {
+		if(cacheManager.get(name)) {
 			console.log('had watched: %s', name);
 		} else {
 			watch();
@@ -25,9 +27,9 @@ module.exports = function (context, name) {
 	}
 
 	function watch() {
-		context.watch(
+		plugins.watch(
 			config.files.allJs,
-			function () {
+			function() {
 				gulp.start(config.tasks.change);
 				// gulp.start(config.tasks.hint);
 				// gulp.start(config.tasks.test);

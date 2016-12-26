@@ -12,7 +12,7 @@ module.exports = function(context, name) {
 				context.sequence(
 					// tasks.hint,
 					// tasks.main,
-					// tasks.test,
+					tasks.test,
 					tasks.watch
 				)(done);
 			}

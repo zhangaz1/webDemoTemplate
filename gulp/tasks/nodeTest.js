@@ -2,6 +2,7 @@
 
 
 module.exports = function(context, name) {
+	var mocha = context.plugins.mocha;
 
 	context.gulp
 		.task(
@@ -10,7 +11,7 @@ module.exports = function(context, name) {
 			function(done) {
 				context.gulp
 					.src('test/node/**/*.test.js')
-					.pipe(context.mocha())
+					.pipe(mocha())
 					// .pipe(context.jasmine())
 					.on('error', function() {
 						console.log(arguments);

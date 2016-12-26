@@ -1,20 +1,15 @@
 'use strict';
 
+module.exports = taskFactory;
 
-module.exports = function(context, name) {
+function taskFactory(context) {
+	var gulp = context.gulp;
+
+	var sequence = context.plugins.sequence;
+
 	var tasks = context.config.tasks;
 
-	context.gulp
-		.task(
-			name,
-			'default task',
-			function(done) {
-				context.sequence(
-					// tasks.hint,
-					// tasks.main,
-					tasks.test,
-					tasks.watch
-				)(done);
-			}
-		);
-};
+	return sequence(
+		tasks.clean.name, []
+	);
+}

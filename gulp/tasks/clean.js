@@ -1,22 +1,24 @@
 'use strict';
 
+module.exports = taskFactory;
 
-var clean = require('gulp-clean');
+function taskFactory(context) {
+    var clean = context.plugins.clean;
 
-module.exports = function(context, name) {
-	var tasks = context.config.tasks;
-	var gulp = context.gulp;
+    var config = context.config;
+    var gulp = context.gulp;
 
-	gulp.task(
-		name,
-		'clean task',
-		function(done) {
-			return gulp.src(['dist', 'release'], {
-					read: false
-				})
-				.pipe(clean({
-					force: true
-				}));
-		}
-	);
-};
+    var paths = config.paths;
+
+    var taskConfig = {
+        folders: []
+    };
+
+    return taskHandler;
+
+    function taskHandler() {
+        var dirs = taskConfig.folders.concat([paths.dist, paths.temp]);
+
+        return gulp.src(dirs, { read: false }).pipe(clean());
+    }
+}

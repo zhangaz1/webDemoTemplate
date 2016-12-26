@@ -1,74 +1,41 @@
 'use strict';
 
+var requireDir = require('requiredir');
 
-//----------------------------------
-// import & export
-//----------------------------------
+module.exports = taskLoader;
 
-var requireDir = require('require-dir');
+function taskLoader(context) {
+	var _ = context._;
+	var gulp = context.gulp;
 
-module.exports = Loader;
+	var definedTasks = loadTasks();
+	var taskSettings = context.config.tasks;
 
+	updateTaskSettings(definedTasks, taskSettings);
+	registerTasks(definedTasks, taskSettings);
 
-//----------------------------------
-// constructor
-//----------------------------------
+	// return void(0);
 
-var _context = null;
-
-function Loader(context) {
-	_context = context;
-}
-
-var lpt = Loader.prototype;
-
-lpt.loadTasks = function () {
-	var dirObj = getDirObj('./tasks');
-	var tasks = parseTasks(dirObj);
-
-	addTasks(tasks);
-};
-
-
-//----------------------------------
-// privates
-//----------------------------------
-
-function getDirObj(dir) {
-	return requireDir(dir, {
-		recurse: true
-	});
-}
-
-function parseTasks(dirObj, prefix, tasks) {
-	if (!dirObj) {
-		return;
+	function loadTasks() {
+		var tasks = requireDir('./tasks');
+		return _.omit(tasks, 'length', 'toArray');
 	}
 
-	prefix = prefix ? prefix + '_' : '';
-	tasks = tasks || {};
-
-	for (var name in dirObj) {
-		var task = dirObj[name];
-		var taskName = prefix + name;
-
-		if (typeof (task) === 'function') {
-			tasks[taskName] = task;
-		} else {
-			parseTasks(task, taskName, tasks)
-		}
+	function registerTasks(definedTasks, taskSettings) {
+		_.mapKeys(definedTasks, function(taskFactory, taskName) {
+			var taskHandler = taskFactory(context);
+			if(taskHandler.dependencies) {
+				gulp.task(taskName, taskHandler.dependencies, taskHandler);
+			} else {
+				gulp.task(taskName, taskHandler);
+			}
+		});
 	}
 
-	return tasks;
-}
-
-function addTasks(tasksHash) {
-	var tasks = _context.config.tasks;
-	for (var p in tasksHash) {
-		tasks[p] = p;
-	}
-
-	for (var p in tasksHash) {
-		tasksHash[p](_context, p);
+	function updateTaskSettings(definedTasks, taskSettings) {
+		_.mapKeys(definedTasks, function(taskFactory, taskName) {
+			var taskSetting = taskSettings[taskName] ? taskSettings[taskName] : taskSettings[taskName] = {};
+			taskSetting.name = taskName;
+		});
 	}
 }

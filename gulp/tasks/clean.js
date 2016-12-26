@@ -3,22 +3,29 @@
 module.exports = taskFactory;
 
 function taskFactory(context) {
-    var clean = context.plugins.clean;
+	var gulp = context.gulp;
+	var clean = context.plugins.clean;
 
-    var config = context.config;
-    var gulp = context.gulp;
+	var config = context.config;
+	var paths = config.paths;
 
-    var paths = config.paths;
+	var taskConfig = {
+		folders: []
+	};
 
-    var taskConfig = {
-        folders: []
-    };
+	return taskHandler;
 
-    return taskHandler;
+	function taskHandler() {
+		var dirs = taskConfig.folders
+			.concat([
+				paths.dist,
+				paths.temp
+			]);
 
-    function taskHandler() {
-        var dirs = taskConfig.folders.concat([paths.dist, paths.temp]);
-
-        return gulp.src(dirs, { read: false }).pipe(clean());
-    }
+		return gulp.src(dirs, {
+			read: false
+		}).pipe(clean({
+			force: true
+		}));
+	}
 }

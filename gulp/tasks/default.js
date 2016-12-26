@@ -10,6 +10,6 @@ function taskFactory(context) {
 	var tasks = context.config.tasks;
 
 	return sequence(
-		tasks.clean.name, []
+		tasks.clean.name
 	);
 }

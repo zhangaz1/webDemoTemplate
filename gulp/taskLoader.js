@@ -34,7 +34,8 @@ function taskLoader(context) {
 
 	function updateTaskSettings(definedTasks, taskSettings) {
 		_.mapKeys(definedTasks, function(taskFactory, taskName) {
-			var taskSetting = taskSettings[taskName] ? taskSettings[taskName] : taskSettings[taskName] = {};
+			var taskSetting = taskSettings[taskName] ||
+				(taskSettings[taskName] = {});
 			taskSetting.name = taskName;
 		});
 	}

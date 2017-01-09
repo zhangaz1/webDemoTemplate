@@ -5,6 +5,9 @@ module.exports = taskFactory;
 function taskFactory(context) {
 	var gulp = context.gulp;
 	var watch = context.plugins.watch;
+	var cacheManager = context.cacheManager;
+	var config = context.config;
+	var name = config.tasks.watch.name;
 
 	return taskHandler;
 
@@ -24,7 +27,7 @@ function taskFactory(context) {
 
 	function doWatch() {
 		watch(
-			config.files.allJs,
+			config.srcs.tests.node,
 			function() {
 				gulp.start(config.tasks.change);
 				// gulp.start(config.tasks.hint);

@@ -13,6 +13,7 @@ function createContext() {
 		utils: require('./utils.js'),
 		package: require('./../package.json'),
 		config: require('./config.json'),
+		cacheManager: require('./cacheManager.js'),
 		gulp: gulp,
 		plugins: plugins,
 		autoprefixer: require('autoprefixer')
